@@ -1,0 +1,116 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+    padding: 0 15px;
+}
+
+.icon-block .material-icons {
+    font-size: inherit;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.navbar-material .nav-wrapper .brand-logo img {
+    height: 64px;
+}
+
+.footer-copyright .container .brand-logo img {
+    height: 64px;
+}
+
+.brand-logo {
+    margin-left: 64px;
+}
+
+.brand-logo-image {
+    width: 48px;
+    height: 64px;
+}
+
+.valign-wrapper {
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.btn {
+    background-color: #795548 !important;
+}
+
+.btn-cancel {
+    background-color: #F44336 !important;
+}
+
+.btn-success {
+    background-color: #26a69a !important;
+}
+
+.hide-on-load {
+    display: none;
+}
+
+.img {
+    border: 5px solid #ddd;
+}
+
+.text-normal {
+    font-size: 12px !important;
+}
+
+.avatar {
+    min-height: 100% !important;
+}
+
+.inbox {
+    padding: 0px !important;
+}
+
+.padding5 {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.zero-margin-bottom {
+    margin-bottom: 0px !important;
+}
+
+.space-margin-left {
+    margin-left: 20px;
+}
+
+.page-footer {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.none-marg {
+    margin-bottom: 0px !important;
+}
+
+.btn-custom {
+    width: 192px !important;
+}
+
+.clickable {
+    cursor: pointer !important;
+}

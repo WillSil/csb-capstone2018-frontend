@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.brand-logo {
+    margin-left: 64px;
+}
+
+.brand-logo-image {
+    width: 48px;
+    height: 64px;
+}
+
+.valign-wrapper {
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.btn {
+    background-color: #795548 !important;
+}
+
+.hide-on-load {
+    display: none;
+}

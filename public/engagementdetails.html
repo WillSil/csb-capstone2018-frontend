@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSB Capstone Portal</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<script id="details-template" type="text/x-handlebars-template"></script>
+
+<br>
+<main>
+    <div class="container row">
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel lighten-5 z-depth-1">
+                    <div class="card-title">Engagement Information</div>
+                    <div class="divider"></div>
+                    <br>
+                    <div class="card-content">
+                        <div class="row">
+
+                            <div class="col s10" id="engagements">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="commentArea" class="materialize-textarea"></textarea>
+                        <label for="commentArea">Enter an Engagement Comment</label>
+                    </div>
+                </div>
+            </form>
+            <a id="addComment" class="waves-effect waves-light btn">Submit</a>
+        </div>
+        <div class="row">
+            <form class="col s6">
+                <div class="card-title"><h5> Engagement Comments </h5></div>
+            </form>
+        </div>
+
+        <table id="engagementCommentsTable" class="bordered">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+
+    </div>
+
+</main>
+
+</body>
+
+<!-- materialize JS -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<!-- handlebars JS -->
+<script type="text/javascript" src="js/handlebars.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script src="js/handlebars-v4.0.10.js"></script>
+<script src="js/templates.js"></script>
+<script src="js/init.js"></script>
+<script src="js/utilityScript.js"></script>
+<script>
+
+    //load the engagementDetails!
+    var notesId = 0;
+    var engagementId;
+    var engagementNotes;
+    var engagementNotesRegex = /[{***}]+/;
+    var engagementNotesDelim = "{***}";
+
+    $(document).ready(function () {
+        var url_string = window.location;
+        var url = new URL(url_string);
+        engagementId = url.searchParams.get("id");
+
+        doGetRequest("/engagements/" + engagementId, undefined, function (data) {
+            var html = "";
+            html += '<div class="col"><strong>' + data.engagementName + '</strong>';
+            html += '<p><span class="grey-text"> Business Name:    </span>' + data.business.businessName + '<br>';
+            html += '<span class="grey-text">Business Address:   </span>' + data.business.businessAddress + '<br>';
+            html += '<span class="grey-text">Business Phone:   </span>' + data.business.businessPhoneNumber + '<br>';
+            html += '<span class="grey-text">Business Email:   </span>' + data.business.businessEmail + '<br></div>';
+            $('#engagements').append(html);
+
+            engagementNotes = data.engagementNotes;
+
+            if(engagementNotes) {
+                var splitNotes = engagementNotes.split(engagementNotesRegex);
+                splitNotes.forEach(function (item) {
+                    if(item) {
+                        $('#engagementCommentsTable').find('> tbody').append(getNotesHtml(notesId, item));
+                        notesId += 1;
+                    }
+                });
+            } else {
+                engagementNotes = "";
+            }
+        });
+
+    });
+
+    //unsure if this is what formData should be like
+    $('#addComment').click(function () {
+
+        // note = document.getElementbyId("commentArea").value;
+
+        engagementNotes = $('#commentArea').val() + engagementNotesDelim + engagementNotes;
+        var formData = {
+            "engagementNotes": engagementNotes
+        };
+
+        doPostRequest("/engagements/edit/" + engagementId, formData, function () {
+            $('#commentArea').val("");
+            var notes = formData.engagementNotes.split(engagementNotesRegex)[0];
+            $('#engagementCommentsTable').find('> tbody').prepend(getNotesHtml(notesId, notes));
+        });
+    });
+
+    function deleteNotes(index) {
+        engagementNotes = "";
+        $('#engagementCommentsTable').find('> tbody').children().each(function() {
+            if($(this).attr("id") !== "notes-" + index) {
+                engagementNotes += $(this).find("td").eq(1).html() + engagementNotesDelim;
+            }
+        });
+
+        var formData = {
+            "engagementNotes": engagementNotes
+        };
+
+        doPostRequest("/engagements/edit/" + engagementId, formData, function () {
+            $('#notes-' + index).remove();
+        });
+    }
+
+    function getNotesHtml(index, notes) {
+        return "<tr id='notes-" + index + "'>" +
+            "<td><a onclick='deleteNotes(" + index +  ")' class='btn-flat waves-effect'><i class='material-icons'>delete</i></a></td>" +
+            "<td>" + notes + "</td>" +
+            "</tr>"
+    }
+
+</script>
+
+</body>
+</html>

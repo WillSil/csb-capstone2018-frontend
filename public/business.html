@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSB Capstone Portal</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+</head>
+
+<body>
+<script id="details-template" type="text/x-handlebars-template"></script>
+<main>
+    <div class="container row">
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel lighten-5 z-depth-1">
+                    <div class="card-title">Company Information</div>
+                    <div class="divider"></div>
+                    <br>
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col s2">
+                                <img src="pictures/business.jpg" class="responsive-img img">
+                            </div>
+
+                            <div class="col s10" id="company">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="engagement">
+                    <div class="card-panel lighten-5 z-depth-1">
+                        <div class="card-tabs">
+                            <ul class="tabs tabs-fixed-width">
+                                <li class="tab"><a class="active" id="li_engagementList" href="#engagementList">List of
+                                    Engagements</a></li>
+                                <li class="tab"><a id="li_clientList" href="#clientList">Company Clients</a></li>
+
+                            </ul>
+                        </div>
+
+
+                        <div class="card-content">
+
+                            <div id="engagementList">
+                                <ul class="collection" id='engagementsList'>
+                                </ul>
+                                <div class="divider"></div>
+                                <br>
+                                <p class="center-align">
+                                    <button style="cursor:default" class="waves-effect waves-light btn modal-trigger btn-custom" id="modal02_"
+                                            href="#modal2">Create New Engagement
+                                    </button>
+                                </p>
+                            </div>
+                            <div id="clientList">
+                                <ul class="collection" id='clientsList'>
+                                </ul>
+                                <div class="divider"></div>
+                                <br>
+                                <p class="center-align">
+                                    <button style="cursor:default" class="waves-effect waves-light btn modal-trigger btn-custom" id="modal03_"
+                                            href="#modalCreateClient">Add New Client
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s11">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<div id="progress-dialog" class="modal">
+    <div class="modal-content">
+        <h4 id="progress-dialog_title">Loading...</h4>
+        <div class="row"></div>
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal2" class="modal">
+    <div class="modal-content">
+        <h4>Engagements Form</h4>
+        <form class="col s12" name="createEngagementForm" id='createEngagementForm' onsubmit="return false">
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Business Id" id="businessId" type="text">
+                    <label for="businessId">Business id</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <label> * Denotes Required Fields</label>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Engagements Name" id="createEngagementName" type="text" class="validate">
+                    <label for="createEngagementName">Engagement Name *</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Implementation Date" id="createEngagementDateImplemented" type="text">
+                    <label for="createEngagementDateImplemented">Engagement Implementation Date [yyyy]</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Start Date" class="" id="createEngagementDateStarted" type="text">
+                    <label for="createEngagementDateStarted">Engagement Start Date [mm/dd/yyyy] </label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="End Date" id="createEngagementDateEnded" type="text" class="validate">
+                    <label for="createEngagementDateEnded">Engagement End Date [mm/dd/yyyy]</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="row" id="Engagements_submit_row">
+            <div class="input-field col" style="float: right">
+                <button name="Close" class="modal-action modal-close waves-effect waves-light btn modal-trigger">
+                    Cancel
+                </button>
+                <button type="submit" name="Submit" onclick="createEngagement()"
+                        class="modal-action waves-effect waves-light btn modal-trigger">
+                    Submit
+                </button>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalCreateClient" class="modal">
+    <div class="modal-content">
+        <h4>Clients Form</h4>
+        <form class="ndel_class" class="col s12" name="editClientForm" id='createClientsForm'
+              onsubmit="return false">
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input id="clientId_" type="text">
+                    <label for="clientId_">Client id</label>
+                </div>
+            </div>
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input id="businessId_cl_" type="text">
+                    <label for="businessId_cl_">Business id</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <label> * Denotes Required Fields</label>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Client Name" id="clientName_" type="text" class="validate">
+                    <label for="clientName_">Client Name *</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Client Email" id="clientEmail_" type="text" class="validate">
+                    <label for="clientEmail_">Client Email *</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Client Phone Number" id="clientPhone_" type="text" class="validate">
+                    <label for="clientPhone">Client Phone No :</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Client Notes" id="clientNotes_" type="text" class="validate">
+                    <label for="clientNotes_">Client Notes</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="row" id="Clients_submit_row">
+            <div class="input-field col" style="float: right">
+                <button name="Close" class="modal-action modal-close waves-effect waves-light btn modal-trigger">
+                    Cancel
+                </button>
+                <button type="submit" name="Submit" onclick="createClients_()"
+                        class="modal-action waves-effect waves-light btn modal-trigger">
+                    Submit
+                </button>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="editEngagementModal" class="modal">
+    <div class="modal-content">
+        <h4 class="ndel_class">Engagements Form</h4>
+        <h4 class="del_class">Delete Company</h4>
+        <p class="del_class">Are you sure you want to delete? </p>
+        <form class="ndel_class" class="col s12" name="editEngagementForm" id='editEngagementForm'
+              onsubmit="return false">
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input id="engagementId" type="text">
+                    <label for="engagementId">Engagement id</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Engagements Name" id="engagement_name" type="text" class="validate">
+                    <label for="engagement_name">Engagement Name</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Implementation Date" id="engagement_date_implemented" type="text"
+                           class="validate">
+                    <label for="engagement_date_started">Engagement Implementation Date [yyyy]</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Start Date" class="" id="engagement_date_started" type="text" class="validate">
+                    <label for="engagement_date_started">Engagement Start Date [mm/dd/yyyy] </label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="End Date" id="engagement_date_ended" type="text" class="validate">
+                    <label for="engagement_date_ended">Engagement End Date [mm/dd/yyyy]</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="row" id="editEngagementSubmitRow">
+        </div>
+    </div>
+</div>
+
+<div id="editClientsModal" class="modal">
+    <div class="modal-content">
+        <h4 class="ndel_class">Client Form</h4>
+        <h4 class="del_class">Delete Client</h4>
+        <p class="del_class">Are you sure you want to delete? </p>
+        <form class="ndel_class" class="col s12" name="editClientForm" id='editClientsForm'
+              onsubmit="return false">
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input id="clientId" type="text">
+                    <label for="engagementId">Client id</label>
+                </div>
+            </div>
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input id="businessId_cl" type="text">
+                    <label for="businessId_cl">Business id</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Client Name" id="clientName" type="text" class="validate">
+                    <label for="clientName">Client Name</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Client Email" id="clientEmail" type="text" class="validate">
+                    <label for="clientEmail">Client Email</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Client Phone Number" id="clientPhone" type="text" class="validate">
+                    <label for="clientPhone">Client Phone No :</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Client Notes" id="clientNotes" type="text" class="validate">
+                    <label for="clientNotes">Client Notes</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="row" id="editClientsSubmitRow">
+        </div>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal company_modal">
+    <div class="modal-content">
+        <h4>Business Form</h4>
+        <form class="col s12" name="frm_business" id='frm_business' onsubmit="return false">
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Business Id" id="Business_id" type="text">
+                    <label for="Business_id">Business id</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Business Name" id="Business_Name" type="text" class="validate">
+                    <label for="Business_Name">Business Name</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Business Email" id="Business_Email" type="email" class="validate ">
+                    <label for="Business_Email">Business Email</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Business Phone Number" id="Business_Phone" type="tel" class="validate">
+                    <label for="Business_Phone">Business Phone Number</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Business Address" id="business_address" type="text" class="validate">
+                    <label for="business_address">Business Address</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Business Industry" id="business_industry" type="text" class="validate">
+                    <label for="business_industry">Business Industry</label>
+                </div>
+            </div>
+            <div class="row" id="business_submit_row">
+                <!-- <div class="input-field col" style="float: right">
+                    <button type="submit" name="Submit" onclick="successMsg(data)" class="waves-effect waves-light btn modal-trigger">Submit</button>
+                </div> -->
+            </div>
+        </form>
+    </div>
+
+</div>
+
+</body>
+
+<!-- materialize JS -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="https://momentjs.com/downloads/moment.js"></script>
+<!-- handlebars JS -->
+<script type="text/javascript" src="js/handlebars.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script src="js/handlebars-v4.0.10.js"></script>
+<script src="js/templates.js"></script>
+<script src="js/init.js"></script>
+<script src="js/utilityScript.js"></script>
+
+<script>
+    var businessId;
+    var engagementData;
+    var clientData;
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    $(document).ready(function () {
+        var url_string = window.location;
+        var url = new URL(url_string);
+        var id = url.searchParams.get("id");
+        $('#modal01_').hide();
+        var url_string = window.location;
+        var url = new URL(url_string);
+        businessId = getUrlParameter('id');//url.searchParams.get("id");
+        if (sessionStorage.tab_sel == "clientList") {
+            $("#li_clientList").trigger('click');
+        } else if (sessionStorage.tab_sel == "engagementsList") {
+            $("#li_engagementList").trigger('click');
+        } else {
+            $("#li_engagementList").trigger('click');
+        }
+
+        $("#Business_id").val(businessId);
+        $("#businessId_cl").val(businessId);
+        $("#businessId_cl_").val(businessId);
+
+        doGetRequest("/businesses/" + businessId, undefined, function (data) {
+            var html = "";
+            html += '<div class="col"><strong>' + data.businessName + '</strong>';
+            html += '<p><span class="grey-text">Email:</span>' + data.businessEmail + '<br>';
+            html += '<span class="grey-text">Phone:</span>' + data.businessPhoneNumber + '<br>';
+            html += '<span class="grey-text">Business Address:</span>' + data.businessAddress + '<br>';
+            html += '<span class="grey-text">Business Industry:</span>' + data.businessIndustry + '<br></div>';
+            $('#company').append(html);
+        });
+
+
+        doGetRequest("/clients/" + businessId, undefined, function (data) {
+            data = data.data;
+            if (data && data.length) {
+                data.sort(function (a, b) {
+                    var nameA = a.clientName.toLowerCase(), nameB = b.clientName.toLowerCase();
+                    if (nameA < nameB) //sort string ascending
+                        return -1;
+                    if (nameA > nameB)
+                        return 1;
+                    return 0; //default return value (no sorting)
+                });
+                for (var i = 0; i < data.length; i++) {
+                    $('#clientsList').append(getClientHtml(data[i], businessId));
+                }
+
+                clientData = data;
+            } else {
+                var html = "";
+                html += '<div class="col"><strong>Sorry : Client Data Not Available</strong></div>';
+                $('#clientsList').append(html);
+            }
+
+        });
+
+
+        $('#Engagements_start_date').val('');
+        doGetRequest("/engagements", {businessId: businessId}, function (data) {
+            data = data.data;
+            if (data && data.length) {
+                data.sort(function (a, b) {
+                    var nameA = a.engagementName.toLowerCase(), nameB = b.engagementName.toLowerCase();
+                    if (nameA < nameB) //sort string ascending
+                        return -1;
+                    if (nameA > nameB)
+                        return 1;
+                    return 0; //default return value (no sorting)
+                });
+                for (var i = 0; i < data.length; i++) {
+                    var html = getEngagementHtml(data[i]);
+                    $('#engagementsList').append(html);
+                }
+
+                engagementData = data;
+            }
+        });
+
+    });
+
+    function createEngagement() {
+        if (document.forms['createEngagementForm'].createEngagementName.value === "") {
+            alert("Please Enter an Engagement name!");
+            return;
+        }
+
+        var formData = {
+            "engagementName": document.forms['createEngagementForm'].createEngagementName.value,
+            "dateStarted": formatDateAsUnixTimestamp(document.forms['createEngagementForm'].createEngagementDateStarted.value),
+            "dateImplemented": formatYearAsUnixTimestamp(document.forms['createEngagementForm'].createEngagementDateImplemented.value),
+            "dateEnded": formatDateAsUnixTimestamp(document.forms['createEngagementForm'].createEngagementDateEnded.value)
+        };
+
+        if (formData.dateStarted === -1) {
+            showToast("The entered start date is invalid");
+            return;
+        }
+
+        if (formData.dateEnded === -1) {
+            showToast("The entered date ended is invalid");
+            return;
+        }
+
+        if (formData.dateImplemented === -1) {
+            showToast("The entered implementation date is invalid");
+            return;
+        }
+
+        var dateStarted = parseInt(formatUnixYearForUi(formData.dateStarted));
+        var dateEnded = parseInt(formatUnixYearForUi(formData.dateEnded));
+        var implementationYear = parseInt(formatUnixYearForUi(formData.dateImplemented));
+        if (implementationYear < dateStarted + 1) {
+            showToast("The Entered Implementation Year Must be a Calendar-year After the Start Date");
+            return;
+        }
+
+        if (dateEnded < dateStarted + 1) {
+            showToast("The End Date Must Be After the Start Date");
+            return;
+        }
+
+        var _url = "/engagements/create/" + businessId;
+        console.log(_url);
+        doPostRequest(_url, formData, function (data) {
+            $('.modal').modal("close");
+            Materialize.toast('Successfully created the engagement !', 3000, '');
+
+            var html = getEngagementHtml(data);
+            $('#engagementsList').append(html);
+        }, function (e) {
+            console.error(e);
+        });
+
+    }
+
+    function createClients_() {
+        var businessId_cl = $("#businessId_cl_").val();
+        var formData = {
+            "clientName": document.forms['createClientsForm'].clientName_.value,
+            "clientEmail": document.forms['createClientsForm'].clientEmail_.value,
+            "clientPhone": document.forms['createClientsForm'].clientPhone_.value,
+            "clientNotes": document.forms['createClientsForm'].clientNotes_.value
+        };
+
+        if (formData.clientName === "") {
+            showToast("Please Enter A Name");
+            return;
+        }
+        if (formData.clientEmail === "") {
+            showToast("Please Enter A Email");
+            return;
+        }
+        if ((formData.clientEmail.search("@") == -1) || (formData.clientEmail.search(".co") == -1)) {
+            showToast("Please Enter A Valid Email");
+            return;
+        }
+
+
+
+        var _url = "/clients/create/" + businessId_cl;
+        console.log(_url);
+        doPostRequest(_url, formData, function (client) {
+            $('.modal').modal("close");
+            Materialize.toast('Successfully created the client !', 3000, '');
+
+            var html = getClientHtml(client, businessId);
+            $('#clientsList').append(html);
+        }, function (e) {
+            console.error(e);
+        });
+
+    }
+
+
+    function hiding() {
+        $('.hiding').hide();
+    }
+
+    function sowing() {
+        $('.hiding').show();
+    }
+
+    function click_eng() {
+        $("#modal02_").trigger("click");
+    }
+
+    function click_comp() {
+        $("#modal01_").trigger("click");
+    }
+
+    // this handels the delete button click
+    function click_delete(id) {
+        if (confirm('Are you sure want to delete this?')) {
+            //sessionStorage.submit_status = deleteCompany;
+            //update_button();
+            //calEdit(id);
+            doDelete(id);
+            //$("#model1").trigger("click");
+        }
+    }
+
+    function click_delete_client(id) {
+        if (confirm('Are you sure want to delete this?')) {
+            //sessionStorage.submit_status = deleteCompany;
+            //update_button();
+            //calEdit(id);
+            doDelete_client(id);
+            //$("#model1").trigger("click");
+        }
+    }
+
+    function doDelete(id) {
+
+
+        var engagementId = id;
+        //document.forms['createEngagementForm'].Business_id.value=id;
+        formData = {
+            //    engagementId: id
+        };
+
+        console.log(formData);
+
+        var _url = "/engagements/delete/" + engagementId;
+
+        doPostRequest(_url, formData,
+            function () {
+                alert("Engagement deleted successfully!");
+                $('#engagement-' + engagementId).remove();
+            },
+            function (e) {
+                console.log(e);
+            });
+    }
+
+    function doDelete_client(id) {
+        var clientId = id;
+        var businessId_cl = $("#businessId_cl").val();
+        //document.forms['createEngagementForm'].Business_id.value=id;
+        formData = {
+            //    engagementId: id
+        };
+
+        console.log(formData);
+
+        var _url = "/clients/delete/" + businessId_cl + "/" + clientId;
+
+        doPostRequest(_url, formData,
+            function () {
+                alert("Client deleted successfully!");
+                $('#client-' + clientId).remove();
+            },
+            function (e) {
+                console.log(e);
+            });
+        //doGetList(-1);
+    }
+
+    $("#engagementList").click(function () {
+        tab_sel("engagementList");
+    });
+    $("#clientList").click(function () {
+        tab_sel("clientList");
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CSB Capstone Portal</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <link rel="stylesheet" href="css/materialize.css">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+</head>
+<body>
+
+<main>
+    <div class="container row">
+        <div class="row center-align">
+            <div class="col s12">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="card-panel">
+
+                <div class="row"></div>
+
+                <h5 class="center-align">Engagement Filter Options</h5>
+
+                <div class="col l8 offset-l2 m12">
+                    <div class="input-field">
+                        <select id="engagementDateFilter" onchange="filterEngagements()">
+                            <option value="all">All</option>
+                            <option value="past_full">Past Fully Engaged</option>
+                            <option value="past_incomplete">Past Incomplete</option>
+                            <option value="current">Present</option>
+                            <option value="future">Future</option>
+                        </select>
+                        <label for="engagementDateFilter">Date Filter</label>
+                    </div>
+                </div>
+
+                <div class="row"></div>
+
+                <div class="col l8 offset-l2 m12">
+                    <div class="input-field">
+                        <select id="engagementStatusFilter" onchange="filterEngagements()">
+                            <option value="">All Phases</option>
+                            <option value="phase_1">Phase 1: Initial Contact</option>
+                            <option value="phase_2">Phase 2: Formal Interest</option>
+                            <option value="phase_3">Phase 3: Concept Defined</option>
+                            <option value="phase_4">Phase 4: Price Finalized</option>
+                            <option value="phase_5">Phase 5: Contract Approved</option>
+                            <option value="phase_6">Phase 6: Contract Signed</option>
+                            <option value="phase_7">Phase 7: Funds Received</option>
+                            <option value="phase_8">Phase 8: Fully Engaged</option>
+                        </select>
+                        <label for="engagementStatusFilter">Phase Filter</label>
+                    </div>
+                </div>
+
+                <div class="row"></div>
+
+                <div class="col l8 offset-l2 s12">
+                    <div class="input-field">
+                        <i class="material-icons prefix">search</i>
+                        <input id="engagementSearchFilter" oninput="filterEngagements()" type="text"
+                               placeholder="Company Name, Engagement Name">
+                        <label for="engagementSearchFilter">Search</label>
+                    </div>
+                </div>
+
+                <div class="col l8 offset-l2 m12">
+                    <div class="input-field inline">
+                        <select id="engagementSorter" onchange="filterEngagements()">
+                            <option value="engagementName">Engagement Name</option>
+                            <option value="businessName">Business Name</option>
+                            <option value="dateStatusLastUpdated">Date Phase Last Updated</option>
+                        </select>
+                        <label for="engagementSorter">Sort By</label>
+                    </div>
+
+                    <span style="margin-left: 32px">
+                        <input type="checkbox" onchange="filterEngagements()" id="engagementAscending" checked="checked"/>
+                        <label for="engagementAscending">Ascending</label>
+                    </span>
+                </div>
+
+                <div class="row"></div>
+
+                <!--<div class="center-align">-->
+                <!--<a class="btn" onclick="filterEngagements()">Filter</a>-->
+                <!--</div>-->
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col l12">
+                <ul class="collection" id='engagementList'>
+                </ul>
+                <div id="engagementsProgress" class="center-align">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="engagements-pagination">
+                    <ul class="pagination">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<div id="progress-dialog" class="modal">
+    <div class="modal-content">
+        <h4 id="progress-dialog_title">Loading...</h4>
+        <div class="row"></div>
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editEngagementModal" class="modal">
+    <div class="modal-content">
+        <h4 class="ndel_class">Engagements Form</h4>
+        <p class="del_class">Are you sure you want to delete? </p>
+        <form class="ndel_class" class="col s12" name="editEngagementForm" id='editEngagementForm'
+              onsubmit="return false">
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Engagements Id" id="engagementId" type="text">
+                    <label for="engagementId">Engagements id</label>
+                </div>
+            </div>
+            <div class="row none-marg ">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Engagements Name" id="engagement_name" type="text" class="validate">
+                    <label for="engagement_name">Engagements Name</label>
+                </div>
+            </div>
+            <div class="row none-marg" hidden>
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Engagements Email" id="Business_ID" type="text" class="validate">
+                    <label for="Business_ID">Business ID</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Implementation Date" id="engagement_date_implemented" type="text"
+                           class="validate">
+                    <label for="engagement_date_started">Engagement Implementation Date [yyyy]</label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="Start Date" class="" id="engagement_date_started" type="text" class="validate">
+                    <label for="engagement_date_started">Engagement Start Date [mm/dd/yyyy] </label>
+                </div>
+            </div>
+            <div class="row none-marg">
+                <div class="input-field col" style="width: 100%">
+                    <input placeholder="End Date" id="engagement_date_ended" type="text" class="validate">
+                    <label for="engagement_date_ended">Engagement End Date [mm/dd/yyyy]</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="row" id="editEngagementSubmitRow">
+        </div>
+    </div>
+</div>
+
+</body>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js'></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="js/materialize.js"></script>
+<script type="text/javascript" src="https://momentjs.com/downloads/moment.js"></script>
+<script src="js/handlebars-v4.0.10.js"></script>
+<script src="js/templates.js"></script>
+<script src="js/init.js"></script>
+<script src="js/utilityScript.js"></script>
+
+<script>
+    var businessData = {};
+
+    // getting the Engagements by id
+    var getEngagementsById = 'https://automate-csb.herokuapp.com/engagements/';
+    //  the post request for creating Engagements
+    var postCreateEngagements = 'https://automate-csb.herokuapp.com/engagements/create/';
+    // the post request for editing Engagements
+    var postEditEngagements = 'https://automate-csb.herokuapp.com/engagements/edit/';
+    // the post request to edit the Engagement status
+    var postEditEngageStat = 'https://automate-csb.herokuapp.com/engagements/updateStatus/';
+    // the post request for deleting Engagements
+    var postDeleteEngagements = 'https://automate-csb.herokuapp.com/engagements/delete/';
+    // getting the business by id
+    var getBusinessById = 'https://automate-csb.herokuapp.com/businesses/';
+    // the messages comes here
+    var successAjaxMessageEngagements = 'Engagements Created Successfully !!';
+    // the error or something went wrong because of the ajax connection
+    var errorAjaxMessageEngagements = 'Something Went wrong in Connection!!';
+    //$('.modal-trigger').leanModal();
+
+    $(document).ready(function () {
+
+        $('select').material_select();
+        $('#engagement_date_started').val('');
+
+        getEngagements(-1);
+    });
+
+    function filterEngagements() {
+        var searchText = $('#engagementSearchFilter').val();
+        var data = {
+            engagementDateFilter: $('#engagementDateFilter').val(),
+            child_status_type: $('#engagementStatusFilter').val(),
+            engagementName: searchText,
+            businessName: searchText,
+            sort_by: $('#engagementSorter').val(),
+            ascending: $('#engagementAscending').is(":checked")
+        };
+        getEngagements(-1, data);
+    }
+
+    function getEngagements(pageIndex, data) {
+
+        const $engagementsList = $('#engagementList');
+        $engagementsList.hide(150);
+        $('#companiesProgress').show(150);
+
+        if (!data) {
+            data = {
+                page: pageIndex === -1 ? 0 : pageIndex
+            };
+        } else {
+            data.page = pageIndex === -1 ? 0 : pageIndex;
+        }
+
+        doGetRequest("/engagements", data, function (data) {
+            $('#engagementsProgress').hide(150);
+            $engagementsList.empty();
+            $engagementsList.show(150);
+
+            var engagementsList = data.data;
+
+            if (engagementsList && engagementsList.length) {
+                for (var i = 0; i < engagementsList.length; i++) {
+                    $('#engagementList').append(getEngagementHtml(engagementsList[i]));
+                }
+            }
+
+            if (pageIndex === -1) {
+                createPagination($('#engagements-pagination').find('> .pagination'), $('#engagementList'), data, function (index) {
+                    getEngagements(index);
+                });
+            }
+        });
+    }
+
+
+    function get_matching_(obj_arr, businessId) {
+        for (var i = 0; i < obj_arr.length; i++) {
+            if (obj_arr[i].businessId == businessId) {
+                return obj_arr[i].businessName;
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('.status').show();
+            $('.engagementBox').hide();
+
+            $('.engagementBox').each(function () {
+
+                var name = $(this).data('status');
+
+                name = name.toString().toLowerCase();
+                var n = name.indexOf('true');
+                if (n > -1) {
+                    $(this).slideDown();
+                }
+
+            });
+        }, 2000);
+    })
+
+    $("#activeStatus").click(function () {
+        $('.status').show();
+        $('.engagementBox').hide();
+
+        $('.engagementBox').each(function () {
+
+            if ($('#activeStatus').is(':checked') == true) {
+                var name = $(this).data('status');
+                name = name.toString().toLowerCase();
+                var n = name.indexOf('true');
+                if (n > -1) {
+                    $(this).slideDown();
+                }
+            } else {
+                var name = $(this).data('status');
+                name = name.toString().toLowerCase();
+                var n = name.indexOf('false');
+                if (n > -1) {
+                    $(this).slideDown();
+                }
+            }
+        });
+
+    });
+
+    $('#btn_new').click(function () {
+        sessionStorage.submit_status = createEngagements;
+        addSubmitButtonToEditEngagement();
+        // calls for the button actual button click ( the hidden one)
+        $("#model01").trigger("click");
+    });
+
+    // this handels the delete button click
+    function click_delete(id) {
+        console.log(id);
+        if (confirm('Are you sure want to delete this?')) {
+            //getEngagementData(id);
+            doDelete(id);
+
+        }
+    }
+
+    function clickModal1() {
+        // sessionStorage.submit_status = createEngagements;
+        // update_button()
+
+    }
+
+    function doDelete(id) {
+        //var EngagementsId = document.forms['frm_Engagements'].engagementId.value;
+        //var BusinessID = document.forms['frm_Engagements'].Business_ID.value;
+        var formData = {
+            //    "engagementsId": document.forms['frm_Engagements'].engagementId.value,
+            //    "engagementsName": document.forms['frm_Engagements'].engagement_name.value
+        };
+//        var _url = postDeleteEngagements + EngagementsId;
+        // console.log(_url);
+        // var formData = JSON.stringify($("#frm_business").serializeArray());
+        doPostRequest("/engagements/delete/" + id, formData, function (data) {
+            $('.modal').modal("close");
+            Materialize.toast('Successfully deleted the engagement !', 3000, '');
+            window.location.reload();
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
+    // the create button click in triggered
+    function doCreate() {
+        var business_id = document.forms['frm_Engagements'].Business_ID.value;
+        if (document.forms['frm_Engagements'].Business_ID.value == "") {
+            alert('Please enter engagement name!');
+            return;
+        }
+        formData = {
+            "engagementsName": document.forms['frm_Engagements'].engagement_name.value,
+//            "BusinessId": document.forms['frm_Engagements'].Business_ID.value,
+            /*"EngagementsState" : document.forms['frm_Engagements'].Engagement_Client_Name.value,
+             "EngagementsNote" : document.forms['frm_Engagements'].Client_Email.value,*/
+            "dateStarted": document.forms['frm_Engagements'].engagement_date_started.value,
+            "dateImplemented": document.forms['frm_Engagements'].engagement_date_implemented.value
+
+        };
+
+        var _url = postCreateEngagements + business_id;
+        console.log(_url);
+        //post ajax request
+        doPostRequest("/engagements/create/" + business_id, formData, function (data) {
+            $('.modal').modal("close");
+            Materialize.toast('Successfully deleted the engagement !', 3000, '');
+            window.location.reload();
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
+
+
+    // need to hide key fields in edit and delete button clicks.. coz they cannot be edited
+    function hiding() {
+        $('.hiding').hide();
+    }
+
+    function sowing() {
+        $('.hiding').show();
+    }
+
+    //adding date picker
+    $('.datepicker').pickadate({
+        format: 'm/d/yyyy',
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: false // Close upon selecting a date,
+    });
+
+</script>
+
+
+</body>
+</html>

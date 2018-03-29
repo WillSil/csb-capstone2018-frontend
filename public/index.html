@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id"
+          content="7797634065396-vc4jn6goqarl3b8hrnar0aim5ejtmek9.apps.googleusercontent.com.apps.googleusercontent.com">
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+</head>
+<body>
+
+<header>
+    <!-- Nav Bar will be designed here -->
+    <nav class="navbar-material">
+        <div class="nav-wrapper brown darken-2">
+            <a href="#!" class="brand-logo"><img class="responsive-img" id="logo" src="pictures/lehigh_logo.png"/></a>
+            <ul class="right hide-on-med-and-down">
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+
+    <div class="container">
+        <div class="row center-align">
+            <div class="col s12 m6 offset-m3 l6 offset-l3">
+
+                <div id="login-container">
+                    <div id="loginButton">
+                        <div class="card waves-effect waves-light brown darken-2">
+                            <div class="card-content white-text center-align">
+                                <span class="card-title">Please Login</span>
+                                <span class="card-title">CSB Capstone Portal</span>
+                                <i class="large material-icons">person</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="unauthorized-login-container" style="display: none;">
+                    <div class="card brown darken-2">
+                        <div class="card-content white-text center-align">
+                            <span class="card-title">You are not authorized to access this service</span>
+                            <i class="large material-icons">block</i>
+                            <div class="row"></div>
+                            <a id="logoutButton" class="btn-flat white-text waves-effect waves-light">Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="error-login-container" style="display: none;">
+                    <div class="card brown darken-2">
+                        <div class="card-content white-text center-align">
+                            <span class="card-title" id="error-login-message"></span>
+                            <i class="large material-icons">error</i>
+                            <div class="row"></div>
+                            <a id="error-logoutButton" class="btn-flat white-text waves-effect waves-light">Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</main>
+
+<footer class="page-footer brown darken-2">
+    <div class="container">
+        <h6 class="grey-text text-lighten-4 left">Copyright 2017 Copyright</h6>
+        <h6 class="grey-text text-lighten-4 right">2017 CSB Capstone Project</h6>
+    </div>
+</footer>
+
+</body>
+
+<!--  Scripts-->
+<script src="/__/firebase/4.6.2/firebase-app.js"></script>
+<script src="/__/firebase/4.6.2/firebase-auth.js"></script>
+<script src="/__/firebase/4.6.2/firebase-database.js"></script>
+<script src="/__/firebase/4.6.2/firebase-messaging.js"></script>
+
+<!--<script src="/__/firebase/init.js"></script>-->
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<script>
+    var config = {
+        apiKey: "AIzaSyDf727U4Ra5PTgnbcz7dnfYOKyN2Yste_4",
+        authDomain: "automate-csb-165818.firebaseapp.com",
+        databaseURL: "https://automate-csb-165818.firebaseio.com",
+        projectId: "automate-csb-165818",
+        storageBucket: "automate-csb-165818.appspot.com",
+        messagingSenderId: "797634065396"
+    };
+
+    firebase.initializeApp(config);
+</script>
+
+<script src="js/materialize.js"></script>
+<script src="js/handlebars-v4.0.10.js"></script>
+<!-- <script src="js/templates.js"></script> -->
+<script src="js/utilityScript.js"></script>
+<!-- <script src="js/init.js"></script> -->
+<script src="js/loginPage.js"></script>
+
+</html>

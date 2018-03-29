@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>User Listing</title>
+		<!-- Google Icon Fonts -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<!-- Font Awesome -->
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		<!-- materialize css -->
+		<link rel="stylesheet" href="css/materialize.min.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+
+<body>
+
+<script id="userList-template" type="text/x-handlebars-template">
+<header>
+  <ul id="dropdown1" class="dropdown-content">
+      <li><a href="#!">Account</a></li>
+      <li class= "divider"></li>
+      <li><a href="#!">Resources</a></li>
+      <li class= "divider"></li>
+      <li><a href="roles-list.html">Roles</a></li>
+      <li class= "divider"></li>
+  </ul>
+  <!-- Nav Bar will be designed here -->
+    <nav class="navbar-material">
+      <div class="nav-wrapper brown darker-2">
+          <a href="index.html" class="brand-logo"><img class="responsive-img brand-logo-image left" id="logo" src="pictures/lehigh_logo.png"/>Lehigh University</a>
+          <ul class="right hide-on-med-and-down">
+              <li><a class="waves-effect brown btn-flat"><i class = "material-icons white-text">notifications</i></a></li>
+              <li><a id ="homeButton" class="waves-effect brown btn-flat"><i class = "material-icons white-text">home</i></a></li>
+              <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><i class="material-icons">menu</i></a></li>
+          </ul>
+      </div>
+  </nav>
+</header>
+	
+	<br>
+	<main>
+		<div class="container row">
+			<div class="row">
+				<div class="col s12">
+					<div class="card-panel brown white-text padding5 z-depth-1 zero-margin-bottom hoverable">
+						<div class="card-title truncate"> 
+							<p><i class="fa fa-gear"></i> <strong>{{header.title}}</strong></p>
+						</div>
+					</div>	
+				</div>
+				<div class="col s12">
+					<div class="card-panel lighten-5 z-depth-1 zero-margin-top hoverable">
+						<div class="row">
+							<div class="col s12">
+								<a class="btn waves-effect waves-light btn-success right" href="#!" data-activates="dropdown2"><i class="fa fa-plus"></i> Add new</a>
+							</div>
+						</div>
+						<div class="row">
+						  	<div class="col s12">
+						  		<table class="bordered">
+							        <thead>
+							          <tr>
+							              <th>{{column.name}}</th>
+							              <th>{{column.email}}</th>
+							              <th>{{column.isActive}}</th>
+							              <th>{{column.date}}</th>
+							              <th>{{column.action}}</th>
+							          </tr>
+							        </thead>
+
+							        <tbody>
+							          {{#each table}}
+							          	{{#each this}}
+							          <tr>
+							            <td>John Doe {{n}}</td>
+							            <td>email{{n}}@email.com</td>
+							            <td>
+							            	<div class="switch">
+											    <label>
+											      <input type="checkbox">
+											      <span class="lever"></span>
+											    </label>
+											</div>
+							            </td>
+							            <td>Oct 10, 2017 20:40</td>
+							            <td>
+							            	<a href="#!"><i class="fa fa-pencil"></i></a>
+							            	<span class="space-margin-left"></span>
+							            	<a href="#!"><i class="fa fa-trash red-text"></i></a>
+							            </td>
+							          </tr>
+							          	{{/each}}
+							          {{/each}}
+							        </tbody>
+							    </table>
+						  	</div>
+						</div>
+						<div class="content-action center-align">
+							<ul class="pagination">
+							    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+							    <li class="active"><a href="#!">1</a></li>
+							    <li class="waves-effect"><a href="#!">2</a></li>
+							    <li class="waves-effect"><a href="#!">3</a></li>
+							    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<div id="progress-dialog" class="modal">
+	    <div class="modal-content">
+	        <h4 id="progress-dialog_title">Loading...</h4>
+	        <div class="row"></div>
+	        <div class="preloader-wrapper active">
+	            <div class="spinner-layer spinner-blue-only">
+	                <div class="circle-clipper left">
+	                    <div class="circle"></div>
+	                </div><div class="gap-patch">
+	                <div class="circle"></div>
+	            </div><div class="circle-clipper right">
+	                <div class="circle"></div>
+	            </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<footer class="page-footer brown">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col l6 s12">
+	                <h6 class="white-text">
+	                    This website was created by CSB students at Lehigh University during the 2017-2018 academic year
+	                </h6>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="footer-copyright">
+	        <div class="container">
+	            © 2017 Lehigh University
+	        </div>
+	    </div>
+	</footer>
+</script>
+
+	<!-- materialize JS -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<!-- handlebars JS -->
+	<script type="text/javascript" src="js/handlebars.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
