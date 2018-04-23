@@ -48,12 +48,18 @@ $('#mail').click(function () {
     mailRedirect();
 });
 
+
 $('#engagementOne').click(function () {
     engagementRedirect();
 });
 
 $('#signout').click(function () {
     signoutRedirect();
+});
+
+//I added this
+$('#do_something').click(function () {
+    webFormRedirect();
 });
 
 function redirectToHome() {
@@ -70,6 +76,11 @@ function mailRedirect() {
     //directly access CSB Email
     win.focus();
 
+}
+
+//I added this
+function webFormRedirect() {
+    window.location.href = "webForm.html";
 }
 
 
